@@ -1,6 +1,5 @@
-package ru.neiropulse.backend.dto;
+package ru.neiropulse.backend.dto.category;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

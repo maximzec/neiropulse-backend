@@ -2,16 +2,15 @@ package ru.neiropulse.backend.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import ru.neiropulse.backend.dto.CategoryDto;
+import org.springframework.web.server.ResponseStatusException;
+import ru.neiropulse.backend.dto.category.CategoryDto;
+import ru.neiropulse.backend.model.Category;
 import ru.neiropulse.backend.service.CategoryService;
 
 
@@ -19,7 +18,7 @@ import ru.neiropulse.backend.service.CategoryService;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class CategoryController {
+public class CategoryController extends Throwable {
 
     @Autowired
     private final CategoryService service;
@@ -32,4 +31,12 @@ public class CategoryController {
         return ResponseEntity.ok(savedCategory);
     }
 
+    @PatchMapping("")
+    public ResponseEntity<?> update(@RequestBody CategoryDto dto) {
+        log.info("Requested to update a category");
+        CategoryDto updatedCategory;
+        updatedCategory = service.updateCategory(dto);
+        log.info("Succesufully updated category with id: {}", dto.getId());
+        return ResponseEntity.ok(updatedCategory);
+    }
 }

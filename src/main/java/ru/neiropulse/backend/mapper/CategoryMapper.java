@@ -1,6 +1,6 @@
 package ru.neiropulse.backend.mapper;
 
-import ru.neiropulse.backend.dto.CategoryDto;
+import ru.neiropulse.backend.dto.category.CategoryDto;
 import ru.neiropulse.backend.model.Category;
 
 public class CategoryMapper {
