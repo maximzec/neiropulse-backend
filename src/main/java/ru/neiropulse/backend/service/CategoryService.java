@@ -10,6 +10,11 @@ import ru.neiropulse.backend.model.Category;
 import ru.neiropulse.backend.repository.CategoryRepository;
 import ru.neiropulse.backend.mapper.CategoryMapper;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -48,9 +53,31 @@ public class CategoryService extends Throwable {
             Category updatedCategory = repository.save(oldCategoryData);
             return CategoryMapper.mapToCategoryDto(updatedCategory);
         } else {
-            log.warn("No such category found with id:{}", categoryDto.getId());
-            throw new RuntimeException("No such category found with id: {}" + categoryDto.getId());
+            log.warn("Warning while updating category.No such category found with id:{}", categoryDto.getId());
+            throw new RuntimeException("Warning while updating category.No such category found with id:{}" + categoryDto.getId());
         }
+    }
+
+    public ArrayList<CategoryDto> deleteCategories(ArrayList<Integer> categories) {
+
+        ArrayList<CategoryDto> deletedCategories = new ArrayList<>();
+
+        for (Integer category : categories) {
+            if (!repository.existsById(category)) {
+                log.warn("Warning while deleting category.No such category found with id:{}", category);
+                categories.remove(category);
+            } else {
+                CategoryDto deletedCategory = CategoryMapper.mapToCategoryDto(repository.findById(category).get());
+                deletedCategories.add(deletedCategory);
+            }
+        }
+
+        repository.deleteAllByIdInBatch(categories);
+        log.info("Successfully deleted categories");
+        return deletedCategories;
+
+
+
     }
 
 }
