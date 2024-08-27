@@ -10,8 +10,6 @@ import ru.neiropulse.backend.dto.category.CategoryDto;
 import ru.neiropulse.backend.service.CategoryService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @RequestMapping("/api/v1/category")
@@ -32,18 +30,18 @@ public class CategoryController {
     }
 
     @PatchMapping("")
-    public ResponseEntity<?> update(@RequestBody CategoryDto dto) {
+    public ResponseEntity<CategoryDto> update(@RequestBody CategoryDto dto) {
         log.info("Requested to update a category");
         CategoryDto updatedCategory = service.updateCategory(dto);
         log.info("Succesufully updated category with id: {}", dto.getId());
         return ResponseEntity.ok(updatedCategory);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<ArrayList<CategoryDto>> delete(@RequestBody ArrayList<Integer> categories) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CategoryDto> delete(@PathVariable int id) {
         log.info("Requested to delete category with id");
-        ArrayList<CategoryDto> deletedCategories = service.deleteCategories(categories);
-        return ResponseEntity.ok(deletedCategories);
+        CategoryDto deletedCategory = service.deleteCategories(id);
+        return ResponseEntity.ok(deletedCategory);
 
     }
 }

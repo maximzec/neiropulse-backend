@@ -11,9 +11,6 @@ import ru.neiropulse.backend.repository.CategoryRepository;
 import ru.neiropulse.backend.mapper.CategoryMapper;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -58,25 +55,19 @@ public class CategoryService extends Throwable {
         }
     }
 
-    public ArrayList<CategoryDto> deleteCategories(ArrayList<Integer> categories) {
+    public CategoryDto deleteCategories(int id) {
 
-        ArrayList<CategoryDto> deletedCategories = new ArrayList<>();
 
-        for (Integer category : categories) {
-            if (!repository.existsById(category)) {
-                log.warn("Warning while deleting category.No such category found with id:{}", category);
-                categories.remove(category);
-            } else {
-                CategoryDto deletedCategory = CategoryMapper.mapToCategoryDto(repository.findById(category).get());
-                deletedCategories.add(deletedCategory);
-            }
+
+        if (!repository.existsById(id)) {
+            log.warn("Warning while deleting category.No such category found with id:{}", id);
+            throw new RuntimeException("No such a category with id:" + id);
+        } else {
+            CategoryDto deletedCategory = CategoryMapper.mapToCategoryDto(repository.findById(id).get());
+            repository.deleteById(id);
+            log.info("Successfully deleted categories");
+            return  deletedCategory;
         }
-
-        repository.deleteAllByIdInBatch(categories);
-        log.info("Successfully deleted categories");
-        return deletedCategories;
-
-
 
     }
 
