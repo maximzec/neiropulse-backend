@@ -15,7 +15,7 @@ import java.util.ArrayList;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class CategoryService extends Throwable {
+public class CategoryService {
 
     @Autowired
     private CategoryRepository repository;

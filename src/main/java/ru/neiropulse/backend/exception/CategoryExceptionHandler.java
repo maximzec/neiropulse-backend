@@ -13,7 +13,7 @@ import ru.neiropulse.backend.service.CategoryService;
 @Slf4j
 public class CategoryExceptionHandler {
 
-    @ExceptionHandler(CategoryService.class)
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity handleException(RuntimeException e) {
         log.error(e.getMessage());
         return ResponseEntity
